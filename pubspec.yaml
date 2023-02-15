@@ -38,6 +38,7 @@ dependencies:
   get: ^4.6.5
   gap: ^2.0.1
   smooth_page_indicator: ^1.0.1
+  dots_indicator: ^2.1.0
 
 dev_dependencies:
   flutter_test:

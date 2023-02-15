@@ -12,7 +12,7 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   int currentIndex = 0;
  final list = <Widget>[
-    HomeScreen(),
+    const HomeScreen(),
     const Text("Search"),
     const Text("Cart"),
     const Text("Profile"),

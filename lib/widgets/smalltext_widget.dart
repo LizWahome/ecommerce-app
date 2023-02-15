@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/utlis/app_layout.dart';
 import 'package:flutter/material.dart';
 
 class SmallText extends StatelessWidget {
@@ -10,13 +11,18 @@ class SmallText extends StatelessWidget {
       required this.text,
       this.color = const Color(0xFF666666),
       this.size = 12,
-      this.height = 1.2});
+      this.height = 1
+      });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(fontSize: size, color: color, height: height),
+      style: TextStyle(
+        fontSize: size, 
+        color: color, 
+        height: height
+        ),
     );
   }
 }

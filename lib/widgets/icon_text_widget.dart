@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/utlis/constant_colors.dart';
 import 'package:ecommerce_app/widgets/smalltext_widget.dart';
 import 'package:flutter/material.dart';
 
