@@ -3,6 +3,8 @@ import 'package:ecommerce_app/utlis/app_infolist.dart';
 import 'package:ecommerce_app/utlis/app_layout.dart';
 import 'package:ecommerce_app/utlis/constant_colors.dart';
 import 'package:ecommerce_app/utlis/stack_list.dart';
+import 'package:ecommerce_app/widgets/buildcard_widget.dart';
+import 'package:ecommerce_app/widgets/container_widget.dart';
 import 'package:ecommerce_app/widgets/icon_text_widget.dart';
 import 'package:ecommerce_app/widgets/smalltext_widget.dart';
 import 'package:ecommerce_app/widgets/bigtext_widget.dart';
@@ -61,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     BigText(
                       text: "Bangladesh",
                       color: Styles.blueColor,
+                      fontWeight: true,
                     ),
                     Row(
                       children: [
@@ -76,45 +79,133 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   padding: EdgeInsets.all(AppLayout.getHeight(17)),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppLayout.getHeight(20)),
+                      borderRadius:
+                          BorderRadius.circular(AppLayout.getHeight(20)),
                       color: Styles.blueColor),
-                  child: const Icon(
-                    Icons.search,
-                    color: Colors.white,
+                  child: const Center(
+                    child: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
                   ),
                 )
               ],
             ),
           ),
-          Container(
-            height: AppLayout.getHeight(300),
-            child: AspectRatio(
-              aspectRatio: 1.5,
-              child: PageView.builder(
-                  controller: _controller,
-                  onPageChanged: (int page) {
+          Expanded(
+              child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  height: AppLayout.getHeight(300),
+                  child: AspectRatio(
+                    aspectRatio: 1.5,
+                    child: PageView.builder(
+                        controller: _controller,
+                        onPageChanged: (int page) {
+                          setState(() {
+                            currentIndexPage = page.toDouble();
+                          });
+                        },
+                        itemCount: infoList.length,
+                        itemBuilder: (context, index) {
+                          return carouselView(index);
+                        }),
+                  ),
+                ),
+                DotsIndicator(
+                  dotsCount: infoList.length,
+                  position: currPageValue,
+                  onTap: (position) {
                     setState(() {
-                      currentIndexPage = page.toDouble();
+                      currentIndexPage = position;
+                      _controller.animateToPage(position.toInt(),
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeIn);
                     });
                   },
+                ),
+                Gap(AppLayout.getHeight(30)),
+                Container(
+                  margin:
+                      EdgeInsets.symmetric(horizontal: AppLayout.getWidth(30)),
+                  child: Row(
+                    children: [
+                      BigText(
+                        text: "Popular",
+                        fontWeight: false,
+                      ),
+                      Gap(AppLayout.getHeight(20)),
+                      SmallText(text: "Food pairing")
+                    ],
+                  ),
+                ),
+                ListView.separated(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
                   itemCount: infoList.length,
                   itemBuilder: (context, index) {
-                    return carouselView(index);
-                  }),
+                    return FittedBox(
+                      child: Row(
+                        children: [
+                          buildCard(infoList: infoList[index]),
+                          Container(
+                            width: size.width,
+                            height: AppLayout.getHeight(170),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(
+                                        AppLayout.getHeight(25)),
+                                    bottomRight: Radius.circular(
+                                        AppLayout.getHeight(25))),
+                                color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  BigText(
+                                      text:
+                                          "Nutritious fruit meal in Chinahfgyhruhuijaijgiejioajlksljdfijeriufeurhfseijeidf",
+                                      fontWeight: false),
+                                      Gap(AppLayout.getHeight(15)),
+                                  BigText(
+                                      text: "With Chinnese characteristics", fontWeight: true,),
+                                       Gap(AppLayout.getHeight(15)),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      IconTextWidget(
+                                          text: "normal",
+                                          color: Styles.containerColor,
+                                          icon: Icons.circle),
+                                      IconTextWidget(
+                                          text: "2.4 km",
+                                          color: Styles.blueColor,
+                                          icon: Icons.location_on_sharp),
+                                      IconTextWidget(
+                                          text:  "55 mins",
+                                          color: Styles.containerColor,
+                                          icon: Icons.access_time)
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                          //ContainerWidget(stacklist: stackList[index])
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, _) =>
+                      Gap(AppLayout.getHeight(10)),
+                )
+              ],
             ),
-          ),
-          DotsIndicator(
-            dotsCount: infoList.length,
-            position: currPageValue,
-            onTap: (position) {
-              setState(() {
-                currentIndexPage = position;
-                _controller.animateToPage(position.toInt(),
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeIn);
-              });
-            },
-          )
+          )),
         ],
       ),
     );
@@ -168,70 +259,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: FittedBox(
-              child: Container(
-                height: AppLayout.getHeight(120),
-                alignment: Alignment.bottomCenter,
-                margin: EdgeInsets.only(right: AppLayout.getHeight(13), left: AppLayout.getHeight(13), bottom: AppLayout.getHeight(10)),
-                //margin: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
-                padding: EdgeInsets.all(AppLayout.getHeight(20)),
-                // height: 100,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppLayout.getHeight(25)),
-                    color: Styles.bgColor,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.shade600,
-                          offset: const Offset(0, 2),
-                          blurRadius: 1,
-                          spreadRadius: 0,
-                          blurStyle: BlurStyle.inner),
-                      BoxShadow(color: Styles.bgColor, offset: const Offset(-2, 0)),
-                      BoxShadow(color: Styles.bgColor, offset: const Offset(2, 0))
-                    ]),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    BigText(text: model.foodtype),
-                    Gap(AppLayout.getHeight(7)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Wrap(
-                          children: List.generate(
-                              5,
-                              (index) => Icon(
-                                    Icons.star,
-                                    color: Styles.blueColor,
-                                    size: AppLayout.getHeight(15),
-                                  )),
-                        ),
-                        SmallText(text: "4.5"),
-                        SmallText(text: "19841 comments")
-                      ],
-                    ),
-                    Gap(AppLayout.getHeight(7)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconTextWidget(
-                            text: model.type,
-                            color: Styles.containerColor,
-                            icon: Icons.circle),
-                        IconTextWidget(
-                            text: model.distance,
-                            color: Styles.blueColor,
-                            icon: Icons.location_on_sharp),
-                        IconTextWidget(
-                            text: model.duration,
-                            color: Styles.containerColor,
-                            icon: Icons.access_time)
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
+            child:
+                FittedBox(child: ContainerWidget(stacklist: stackList[index])),
           ),
         ]),
       ),
