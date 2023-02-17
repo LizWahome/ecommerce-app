@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/utlis/app_layout.dart';
 import 'package:flutter/material.dart';
 
 class SmallText extends StatelessWidget {
