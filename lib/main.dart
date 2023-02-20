@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/screens/food_display.dart';
+import 'package:ecommerce_app/screens/customscroll.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,8 +13,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FoodDisplay(),
+      //home: FoodDisplay(),
       //home: BottomBar(),
+      home: CustomScroll(),
     );
   }
 }
