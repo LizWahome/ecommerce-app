@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/food_page.dart';
+import 'package:ecommerce_app/screens/food_page.dart';
 import 'package:ecommerce_app/utlis/app_infolist.dart';
 import 'package:ecommerce_app/utlis/app_layout.dart';
 import 'package:ecommerce_app/utlis/constant_colors.dart';

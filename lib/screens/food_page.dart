@@ -1,9 +1,14 @@
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:ecommerce_app/controllers/popular_product_controller.dart';
 import 'package:ecommerce_app/utlis/app_infolist.dart';
 import 'package:ecommerce_app/utlis/app_layout.dart';
 import 'package:ecommerce_app/utlis/stack_list.dart';
 import 'package:ecommerce_app/widgets/container_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../models/popular_products.dart';
+import '../utlis/app_constants.dart';
 
 class FoodPage extends StatefulWidget {
   const FoodPage({super.key});
@@ -42,44 +47,48 @@ class _FoodPageState extends State<FoodPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: AppLayout.getHeight(300),
-          child: AspectRatio(
-            aspectRatio: 1.5,
-            child: PageView.builder(
-                controller: _controller,
-                onPageChanged: (int page) {
-                  setState(() {
-                    currentIndexPage = page.toDouble();
-                  });
-                },
-                itemCount: infoList.length,
-                itemBuilder: (context, index) {
-                  return carouselView(index);
-                }),
-          ),
-        ),
-         DotsIndicator(
-              dotsCount: infoList.length,
-              position: currPageValue,
-              onTap: (position) {
-                setState(() {
-                  currentIndexPage = position;
-                  _controller.animateToPage(position.toInt(),
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeIn);
-                });
-              },
-            )
+        GetBuilder<PopolarProductController>(builder: (popularProducts) {
+          return SizedBox(
+            height: AppLayout.getHeight(300),
+            child: AspectRatio(
+              aspectRatio: 1.5,
+              child: PageView.builder(
+                  controller: _controller,
+                  onPageChanged: (int page) {
+                    setState(() {
+                      currentIndexPage = page.toDouble();
+                    });
+                  },
+                  itemCount: popularProducts.popularProductList.length,
+                  itemBuilder: (context, index) {
+                    return carouselView(index, popularProducts.popularProductList[index]);
+                  }),
+            ),
+          );
+        }),
+        GetBuilder<PopolarProductController>(builder: (popularProducts) {
+          return DotsIndicator(
+            dotsCount: popularProducts.popularProductList.isEmpty? 1 : popularProducts.popularProductList.length,
+            position: currPageValue,
+            onTap: (position) {
+              setState(() {
+                currentIndexPage = position;
+                _controller.animateToPage(position.toInt(),
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeIn);
+              });
+            },
+          );
+        })
       ],
     );
   }
 
-  Widget carouselView(int index) {
-    return carouselCard(infoList[index], stackList[index], index);
+  Widget carouselView(int index, popularProduct) {
+    return carouselCard(infoList[index], stackList[index], index, ProductsModel());
   }
 
-  Widget carouselCard(InfoModel info, StackModel model, int index) {
+  Widget carouselCard(InfoModel info, StackModel model, int index, ProductsModel popularProduct) {
     Matrix4 matrix = Matrix4.identity();
     if (index == currPageValue.floor()) {
       var currScale = 1 - (currPageValue - index) * (1 - scaleFactor);
@@ -115,7 +124,10 @@ class _FoodPageState extends State<FoodPage> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppLayout.getHeight(25)),
               image: DecorationImage(
-                  image: AssetImage(info.image), fit: BoxFit.fill),
+                image: AssetImage(info.image)
+                //image: NetworkImage(popularProduct.img!)
+                  //image: NetworkImage("${AppConstants.BASE_URL}/uploads/${popularProduct.img!}"), fit: BoxFit.fill
+                  ),
               // boxShadow: const [
               //   BoxShadow(color: Colors.black, offset: Offset(0, 4), blurRadius: 1)
               // ]
