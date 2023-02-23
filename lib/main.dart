@@ -3,6 +3,7 @@ import 'package:ecommerce_app/screens/customscroll.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'controllers/popular_product_controller.dart';
+import 'controllers/recommended_controller.dart';
 import 'helper/dependecies.dart' as dep;
 
 Future<void> main() async {
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find <PopolarProductController>().getPopularProductList();
+    Get.find<PopolarProductController>().getPopularProductList();
+    Get.find<RecommendedController>().getRecommendedProductList();
     return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
       //home: FoodDisplay(),

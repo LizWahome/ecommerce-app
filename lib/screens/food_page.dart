@@ -53,22 +53,29 @@ class _FoodPageState extends State<FoodPage> {
             child: AspectRatio(
               aspectRatio: 1.5,
               child: PageView.builder(
-                  controller: _controller,
-                  onPageChanged: (int page) {
-                    setState(() {
-                      currentIndexPage = page.toDouble();
-                    });
-                  },
-                  itemCount: popularProducts.popularProductList.length,
-                  itemBuilder: (context, index) {
-                    return carouselView(index, popularProducts.popularProductList[index]);
-                  }),
+                controller: _controller,
+                onPageChanged: (int page) {
+                  setState(() {
+                    currentIndexPage = page.toDouble();
+                  });
+                },
+                itemCount: infoList.length,
+                itemBuilder: (context, index) {
+                  return carouselView(index);
+                },
+                // itemCount: popularProducts.popularProductList.length,
+                //  itemBuilder: (context, index) {
+                //   return carouselView(index, popularProducts.popularProductList[index]);
+                // }
+              ),
             ),
           );
         }),
         GetBuilder<PopolarProductController>(builder: (popularProducts) {
           return DotsIndicator(
-            dotsCount: popularProducts.popularProductList.isEmpty? 1 : popularProducts.popularProductList.length,
+            dotsCount: infoList.length,
+            //dotsCount: popularProducts.popularProductList.length,
+            //dotsCount: popularProducts.popularProductList.isEmpty? 1 : popularProducts.popularProductList.length,
             position: currPageValue,
             onTap: (position) {
               setState(() {
@@ -84,11 +91,11 @@ class _FoodPageState extends State<FoodPage> {
     );
   }
 
-  Widget carouselView(int index, popularProduct) {
-    return carouselCard(infoList[index], stackList[index], index, ProductsModel());
+  Widget carouselView(int index) {
+    return carouselCard(infoList[index], stackList[index], index);
   }
 
-  Widget carouselCard(InfoModel info, StackModel model, int index, ProductsModel popularProduct) {
+  Widget carouselCard(InfoModel info, StackModel model, int index) {
     Matrix4 matrix = Matrix4.identity();
     if (index == currPageValue.floor()) {
       var currScale = 1 - (currPageValue - index) * (1 - scaleFactor);
@@ -123,9 +130,8 @@ class _FoodPageState extends State<FoodPage> {
             height: AppLayout.getHeight(200),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppLayout.getHeight(25)),
-              image: DecorationImage(
-                image: AssetImage(info.image)
-                //image: NetworkImage(popularProduct.img!)
+              image: DecorationImage(image: AssetImage(info.image)
+                  //image: NetworkImage(popularProduct.img!)
                   //image: NetworkImage("${AppConstants.BASE_URL}/uploads/${popularProduct.img!}"), fit: BoxFit.fill
                   ),
               // boxShadow: const [

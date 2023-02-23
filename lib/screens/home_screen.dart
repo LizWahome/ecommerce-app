@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/controllers/recommended_controller.dart';
+import 'package:ecommerce_app/data/api/repository/recommended_repo.dart';
 import 'package:ecommerce_app/screens/food_page.dart';
 import 'package:ecommerce_app/utlis/app_infolist.dart';
 import 'package:ecommerce_app/utlis/app_layout.dart';
@@ -8,6 +10,7 @@ import 'package:ecommerce_app/widgets/smalltext_widget.dart';
 import 'package:ecommerce_app/widgets/bigtext_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -94,12 +97,11 @@ class _HomeScreenState extends State<HomeScreen> {
             const FoodPage(),
             Gap(AppLayout.getHeight(30)),
             Container(
-              margin:
-                  EdgeInsets.symmetric(horizontal: AppLayout.getWidth(30)),
+              margin: EdgeInsets.symmetric(horizontal: AppLayout.getWidth(30)),
               child: Row(
                 children: [
                   BigText(
-                    text: "Popular",
+                    text: "Recommended",
                     fontWeight: false,
                   ),
                   Gap(AppLayout.getHeight(20)),
@@ -107,74 +109,81 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: infoList.length,
-              itemBuilder: (context, index) {
-                return FittedBox(
-                  child: Row(
-                    children: [
-                      buildCard(infoList: infoList[index]),
-                      Container(
-                        width: size.width,
-                        height: AppLayout.getHeight(170),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(
-                                    AppLayout.getHeight(25)),
-                                bottomRight: Radius.circular(
-                                    AppLayout.getHeight(25))),
-                            color: Colors.white),
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              BigText(
-                                  text:
-                                      "Nutritious fruit meal in Chinahfgyhruhuijaijgiejioajlksljdfijeriufeurhfseijeidf",
-                                  fontWeight: false),
-                                  Gap(AppLayout.getHeight(15)),
-                              BigText(
-                                  text: "With Chinnese characteristics", fontWeight: true,),
-                                   Gap(AppLayout.getHeight(15)),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+            GetBuilder<RecommendedController>(
+              builder: (recommendedProduct) {
+                return ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  //itemCount: recommendedProduct.recommendedProductList.length,
+                  itemCount: infoList.length,
+                  itemBuilder: (context, index) {
+                    return FittedBox(
+                      child: Row(
+                        children: [
+                          buildCard(infoList: infoList[index]),
+                          Container(
+                            width: size.width,
+                            height: AppLayout.getHeight(170),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(
+                                        AppLayout.getHeight(25)),
+                                    bottomRight: Radius.circular(
+                                        AppLayout.getHeight(25))),
+                                color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  IconTextWidget(
-                                      text: "normal",
-                                      color: Styles.containerColor,
-                                      icon: Icons.circle),
-                                  IconTextWidget(
-                                      text: "2.4 km",
-                                      color: Styles.blueColor,
-                                      icon: Icons.location_on_sharp),
-                                  IconTextWidget(
-                                      text:  "55 mins",
-                                      color: Styles.containerColor,
-                                      icon: Icons.access_time)
+                                  BigText(
+                                      text:
+                                        "Nutricious food prepared with love. Enjoy",
+                                      fontWeight: false),
+                                  Gap(AppLayout.getHeight(15)),
+                                  BigText(
+                                    text: "normal",
+                                    fontWeight: true,
+                                  ),
+                                  Gap(AppLayout.getHeight(15)),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      IconTextWidget(
+                                          text: "spicy",
+                                          color: Styles.containerColor,
+                                          icon: Icons.circle),
+                                      IconTextWidget(
+                                          text: "1.4 km",
+                                          color: Styles.blueColor,
+                                          icon: Icons.location_on_sharp),
+                                      IconTextWidget(
+                                          text: "45 mins",
+                                          color: Styles.containerColor,
+                                          icon: Icons.access_time)
+                                    ],
+                                  )
                                 ],
-                              )
-                            ],
-                          ),
-                        ),
-                      )
-                      //ContainerWidget(stacklist: stackList[index])
-                    ],
-                  ),
+                              ),
+                            ),
+                          )
+                          //ContainerWidget(stacklist: stackList[index])
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, _) =>
+                      Gap(AppLayout.getHeight(10)),
                 );
               },
-              separatorBuilder: (context, _) =>
-                  Gap(AppLayout.getHeight(10)),
             ),
           ],
         ),
       ),
     );
   }
-
- 
 }
