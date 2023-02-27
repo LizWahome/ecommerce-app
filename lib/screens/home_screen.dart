@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/controllers/recommended_controller.dart';
 import 'package:ecommerce_app/data/api/repository/recommended_repo.dart';
+import 'package:ecommerce_app/routes/route_helper.dart';
 import 'package:ecommerce_app/screens/food_page.dart';
 import 'package:ecommerce_app/utlis/app_infolist.dart';
 import 'package:ecommerce_app/utlis/app_layout.dart';
@@ -114,65 +115,69 @@ class _HomeScreenState extends State<HomeScreen> {
                 return ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  //itemCount: recommendedProduct.recommendedProductList.length,
                   itemCount: infoList.length,
                   itemBuilder: (context, index) {
-                    return FittedBox(
-                      child: Row(
-                        children: [
-                          buildCard(infoList: infoList[index]),
-                          Container(
-                            width: size.width,
-                            height: AppLayout.getHeight(170),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(
-                                        AppLayout.getHeight(25)),
-                                    bottomRight: Radius.circular(
-                                        AppLayout.getHeight(25))),
-                                color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  BigText(
-                                      text:
-                                        "Nutricious food prepared with love. Enjoy",
-                                      fontWeight: false),
-                                  Gap(AppLayout.getHeight(15)),
-                                  BigText(
-                                    text: "normal",
-                                    fontWeight: true,
-                                  ),
-                                  Gap(AppLayout.getHeight(15)),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      IconTextWidget(
-                                          text: "spicy",
-                                          color: Styles.containerColor,
-                                          icon: Icons.circle),
-                                      IconTextWidget(
-                                          text: "1.4 km",
-                                          color: Styles.blueColor,
-                                          icon: Icons.location_on_sharp),
-                                      IconTextWidget(
-                                          text: "45 mins",
-                                          color: Styles.containerColor,
-                                          icon: Icons.access_time)
-                                    ],
-                                  )
-                                ],
+                    return GestureDetector(
+                      onTap: () {
+                        Get.toNamed(RouteHelper.getRecommendedFood());
+                      },
+                      child: FittedBox(
+                        child: Row(
+                          children: [
+                            buildCard(infoList: infoList[index]),
+                            Container(
+                              width: size.width,
+                              height: AppLayout.getHeight(170),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(
+                                          AppLayout.getHeight(25)),
+                                      bottomRight: Radius.circular(
+                                          AppLayout.getHeight(25))),
+                                  color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    BigText(
+                                        text:
+                                            "Nutricious food prepared with love. Enjoy",
+                                        fontWeight: false),
+                                    Gap(AppLayout.getHeight(15)),
+                                    BigText(
+                                      text: "normal",
+                                      fontWeight: true,
+                                    ),
+                                    Gap(AppLayout.getHeight(15)),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        IconTextWidget(
+                                            text: "spicy",
+                                            color: Styles.containerColor,
+                                            icon: Icons.circle),
+                                        IconTextWidget(
+                                            text: "1.4 km",
+                                            color: Styles.blueColor,
+                                            icon: Icons.location_on_sharp),
+                                        IconTextWidget(
+                                            text: "45 mins",
+                                            color: Styles.containerColor,
+                                            icon: Icons.access_time)
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                          //ContainerWidget(stacklist: stackList[index])
-                        ],
+                            )
+                            //ContainerWidget(stacklist: stackList[index])
+                          ],
+                        ),
                       ),
                     );
                   },

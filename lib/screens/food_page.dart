@@ -1,5 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:ecommerce_app/controllers/popular_product_controller.dart';
+import 'package:ecommerce_app/routes/route_helper.dart';
 import 'package:ecommerce_app/utlis/app_infolist.dart';
 import 'package:ecommerce_app/utlis/app_layout.dart';
 import 'package:ecommerce_app/utlis/stack_list.dart';
@@ -7,8 +8,6 @@ import 'package:ecommerce_app/widgets/container_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/popular_products.dart';
-import '../utlis/app_constants.dart';
 
 class FoodPage extends StatefulWidget {
   const FoodPage({super.key});
@@ -63,10 +62,6 @@ class _FoodPageState extends State<FoodPage> {
                 itemBuilder: (context, index) {
                   return carouselView(index);
                 },
-                // itemCount: popularProducts.popularProductList.length,
-                //  itemBuilder: (context, index) {
-                //   return carouselView(index, popularProducts.popularProductList[index]);
-                // }
               ),
             ),
           );
@@ -74,8 +69,6 @@ class _FoodPageState extends State<FoodPage> {
         GetBuilder<PopolarProductController>(builder: (popularProducts) {
           return DotsIndicator(
             dotsCount: infoList.length,
-            //dotsCount: popularProducts.popularProductList.length,
-            //dotsCount: popularProducts.popularProductList.isEmpty? 1 : popularProducts.popularProductList.length,
             position: currPageValue,
             onTap: (position) {
               setState(() {
@@ -126,17 +119,18 @@ class _FoodPageState extends State<FoodPage> {
       child: Transform(
         transform: matrix,
         child: Stack(children: [
-          Container(
-            height: AppLayout.getHeight(200),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppLayout.getHeight(25)),
-              image: DecorationImage(image: AssetImage(info.image)
-                  //image: NetworkImage(popularProduct.img!)
-                  //image: NetworkImage("${AppConstants.BASE_URL}/uploads/${popularProduct.img!}"), fit: BoxFit.fill
-                  ),
-              // boxShadow: const [
-              //   BoxShadow(color: Colors.black, offset: Offset(0, 4), blurRadius: 1)
-              // ]
+          GestureDetector(
+             onTap: () {
+
+                  Get.toNamed(RouteHelper.getPopularFood(index));
+                },
+            child: Container(
+              height: AppLayout.getHeight(200),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppLayout.getHeight(25)),
+                image: DecorationImage(image: AssetImage(info.image)
+                    ),
+              ),
             ),
           ),
           Align(

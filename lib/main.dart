@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/routes/route_helper.dart';
 import 'package:ecommerce_app/screens/bottom_bar.dart';
 import 'package:ecommerce_app/screens/customscroll.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +20,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.find<PopolarProductController>().getPopularProductList();
     Get.find<RecommendedController>().getRecommendedProductList();
-    return const GetMaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       //home: FoodDisplay(),
       home: BottomBar(),
+      initialRoute: RouteHelper.initial,
+      getPages: RouteHelper.routes,
       //home: CustomScroll(),
     );
   }

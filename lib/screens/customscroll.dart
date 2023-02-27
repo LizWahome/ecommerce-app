@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/routes/route_helper.dart';
 import 'package:ecommerce_app/utlis/app_layout.dart';
 import 'package:ecommerce_app/utlis/constant_colors.dart';
 import 'package:ecommerce_app/widgets/app_icon.dart';
@@ -6,21 +7,23 @@ import 'package:ecommerce_app/widgets/expandable_text_widget.dart';
 import 'package:ecommerce_app/widgets/smalltext_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 
-class CustomScroll extends StatefulWidget {
-  const CustomScroll({super.key});
+class CustomScrollPage extends StatefulWidget {
+  const CustomScrollPage({super.key});
 
   @override
-  State<CustomScroll> createState() => _CustomScrollState();
+  State<CustomScrollPage> createState() => _CustomScrollPageState();
 }
 
-class _CustomScrollState extends State<CustomScroll> {
+class _CustomScrollPageState extends State<CustomScrollPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(0),
               child: Container(
@@ -50,7 +53,6 @@ class _CustomScrollState extends State<CustomScroll> {
               background: Stack(
                 children: [
                   Image.asset(
-                    
                     "images/meat-1155132_1920.jpg",
                     width: double.maxFinite,
                     fit: BoxFit.cover,
@@ -66,7 +68,11 @@ class _CustomScrollState extends State<CustomScroll> {
                           padding: EdgeInsets.all(AppLayout.getHeight(7)),
                           decoration: const BoxDecoration(
                               color: Colors.white, shape: BoxShape.circle),
-                          child: const Icon(Icons.arrow_back_ios),
+                          child: GestureDetector(
+                              onTap: () {
+                                Get.toNamed(RouteHelper.getInitial());
+                              },
+                              child: const Icon(Icons.arrow_back_ios)),
                         ),
                         Container(
                           padding: EdgeInsets.all(AppLayout.getHeight(7)),
@@ -141,7 +147,9 @@ class _CustomScrollState extends State<CustomScroll> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: AppLayout.getWidth(15), vertical: AppLayout.getHeight(25)),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: AppLayout.getWidth(15),
+                      vertical: AppLayout.getHeight(25)),
                   // padding: EdgeInsets.only(
                   //   top: AppLayout.getHeight(30),
                   //   bottom: AppLayout.getHeight(25),
